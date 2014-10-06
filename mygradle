@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+gradle "$@" -Pcm=/home/alex/IdeaProjects/ClassMapper/target/scala-2.10/ClassMapper-assembly-1.0.jar

@@ -7,13 +7,14 @@ dependencies {
   compile 'org.scala-lang:scala-library:2.10.4'
 }
 task runMapper(type:JavaExec) {
+  println "${cm}"
   args "./build/resources/main/real.conf", "./build/classes/main/"
   main = 'classmapper.ClassMapperApp'
-  //sourceSets.runtimeClasspath
-  //println sourceSets.allScala.runtimeClasspath
-  classpath = files("/home/alexgri/projects/java/ClassMapper/target/scala-2.10/ClassMapper-assembly-1.0.jar")
+  classpath = files("${cm}")
   println commandLine
-
-
 }
+
+jar.dependsOn runMapper
+runMapper.dependsOn classes
+
 
