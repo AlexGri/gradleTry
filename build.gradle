@@ -1,20 +1,34 @@
 apply plugin: 'scala'
 apply plugin: 'idea'
 repositories {
+  flatDir {
+    dirs 'lib'
+  }
   mavenCentral()
+}
+configurations {
+  classmapper {
+    transitive = true
+  }.extendsFrom(compile)
 }
 dependencies {
   compile 'org.scala-lang:scala-library:2.10.4'
+  classmapper 'test:classmapper_2.10:1.0'
+  classmapper "com.typesafe:config:1.2.1"
 }
-task runMapper(type:JavaExec) {
+/*task runMapper(type:JavaExec) {
   println "${cm}"
   args "./build/resources/main/real.conf", "./build/classes/main/"
   main = 'classmapper.ClassMapperApp'
   classpath = files("${cm}")
   println commandLine
+}*/
+task runMapper(type:JavaExec) {
+  configurations.classmapper.each { File file -> println file.name }
+  args "./build/resources/main/real.conf", "./build/classes/main/"
+  main = 'classmapper.ClassMapperApp'
+  classpath = configurations.classmapper
 }
 
 jar.dependsOn runMapper
 runMapper.dependsOn classes
-
-
